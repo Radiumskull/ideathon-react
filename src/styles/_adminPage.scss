@@ -1,0 +1,73 @@
+.admin-page{
+    padding: 20px;
+}
+
+.reg-type-dash{
+    max-width: 1000px;
+    margin: 0 auto;
+    background-image: linear-gradient(rgb(202, 10, 250), rgb(12, 1, 175));
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.reg-type-block{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    background-color: rgba(255, 255, 255, 0.575);
+    border-radius: 20px;
+    padding: 10px;
+    margin: 10px;
+
+    text-align: center;
+    strong{
+        font-size: 72px;
+        font-weight: 800;
+    }
+}
+
+.registered-list{
+    padding: 10px;
+    border-radius: 10px;
+    margin: 50px 5px;
+    background-image: linear-gradient(rgb(202, 10, 250), rgb(12, 1, 175));
+}
+
+.registered-tile{
+    background-color: rgba(255, 255, 255, 0.575);
+    padding: 2px 20px 2px 20px;
+    border-radius: 10px;
+    margin: 10px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .register-user-info{
+        font-size: 18px;
+    }
+    .register-event-info{
+        display: inline-flex;
+        h4{
+            padding: 2px;
+            font-size: 24px;
+            margin: 10px;
+            &:last-child{
+                margin-left: 10px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 768px){
+    .reg-type-dash{
+        display: grid;
+        width: 100%;
+        grid-template-columns: auto;
+        .reg-type-block{
+            
+        }
+    }
+
+    }

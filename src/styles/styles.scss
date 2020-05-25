@@ -1,0 +1,16 @@
+@import './navbar';
+@import './registerForm';
+@import './loginForm';
+@import './adminPage';
+
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+.body{
+    background-image: linear-gradient(blue, green);
+    position: fixed;
+    min-width: 100%;
+    min-height: 100%;
+}
