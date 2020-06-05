@@ -1,7 +1,7 @@
-@import './navbar';
 @import './registerForm';
 @import './loginForm';
 @import './adminPage';
+@import './previewForm';
 
 *{
     margin: 0px;
@@ -9,6 +9,7 @@
 }
 
 .body{
+    overflow: auto;
     background-image: linear-gradient(rgb(179, 179, 255), rgb(197, 122, 212));
     position: fixed;
     min-width: 100%;

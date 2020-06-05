@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import RegisterForm from '../components/Forms/RegisterForm';
-import LoginForm from '../components/Forms/LoginForm';
+import Register from '../components/Register/Register';
+import LoginForm from '../components/LoginForm/LoginForm';
 import AdminPage from '../pages/AdminPage'
 
 const Home = () => {
@@ -10,9 +10,8 @@ const Home = () => {
         <div className="body">
                 <Switch>
                     <Route path="/login" exact component={LoginForm} />
-                    <Route path="/register" exact component={RegisterForm} />
                     <Route path="/admin" exact component={AdminPage} />
-                    <Route path="/" render={props => <h1>Home Page</h1>} />
+                    <Route path="/" exact component={Register} />
                     
                 </Switch>
         </div>

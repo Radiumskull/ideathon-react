@@ -1,96 +1,106 @@
-.register-form{
-    background-image: linear-gradient(rgb(202, 10, 250), rgb(12, 1, 175));
-    box-shadow: rgb(68, 68, 68) 0px 5px 10px 1px;
-    .event-info{
-        text-align: center;
-        color: white;
-        height: 400px;
-        .info-content{
-            height: 100%;
+.register-page{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    .register-form{
+        background-color: white;
+        padding: 10px;
+        padding-top: 9%;
+        text-align: left;
+        height: 100vh;
+        form{
+            width: 90%;
+            margin: 0px auto;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: space-evenly;
-            padding: 10px;
             h1{
-                padding: 0px 10px;
-                font-size: 36px;
+                text-align: center;
+                margin-bottom: 40px;
             }
-            p{
-                padding: 0px 5px;
+            div{
+                margin: 5px 0px;
+                label{
+                    display: block;
+                }
+                input{
+                    margin-top: 2px;
+                    margin-bottom: 5px;
+                    padding: 0.5em 0.6em;
+                    display: inline-block;
+                    border: 1px solid #ccc;
+                    box-shadow: inset 0 1px 3px #ddd;
+                    border-radius: 4px;
+                    box-sizing: border-box;
+                    display: block;
+                    width: 100%;
+                }
+                select{
+                    width: 100%;
+                    height: 35px;
+                }
             }
-            strong{
-                display: block;
+            button{
+                border: none;
+                padding: 10px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                width: 150px;
+                height: 40px;
+                margin: 10px auto;
+                border-radius: 29px;
+                // background-color: rgb(203, 126, 255);
+                background-image: linear-gradient(45deg, rgb(203, 126, 255), rgb(134, 91, 255));
+                color: white;
+                font-weight: 800;
+                box-shadow: rgb(212, 212, 212) 2px 2px;
+                
+                &:hover{
+                    background-color: blue;
+                }
+                &:active{
+                    box-shadow: black 0px 0px;
+                }
+
+
             }
+
         }
     }
-    form{
-        flex : 1.4;
-        display: flex;
-        flex-direction: column;
-        padding: 30px;
-        border-radius: 0px 20px 20px 0px;
-        background-color: rgba(255, 255, 255, 0.609) ;
-        h1{
-            font-size: 36px;
-            text-align: center;
-            margin: 10px auto 40px auto;
-        }
-        label{
-            margin: 5px 0px;
-            font-size: 16px;
-            font-weight: 600;
-        }
-        input, select{
-            display: block;
-            width: 96%;
-            height: 30px;
-            margin: 2px 0px 10px 0px;
 
+    .event-info{
+        padding: 2em;
+        padding-bottom: 4em;
+        text-align: center;
+        padding-top: 10%;
+        p{
+            padding-top: 50px;
         }
-        input[type="file"]{
-            background-color: white ;
-            padding: 2px 8px;
-            border-radius: 5px;
-        }
-        select{
-            width: 99%;
-        }
-        button{
-            height: 40px;
-            width: 200px;
-            border-radius: 15px;
-            font-size: 18px;
-            font-weight: 600;
-            margin: 20px auto;
 
-            background-image: linear-gradient(rgb(202, 10, 250), rgb(12, 1, 175));
-            border: none;
-            color: white;
-        }
     }
 }
 
 @media only screen and (min-width: 768px){
-    .register-form{
-        height: 700px;
-        max-width: 1000px;
-        width: 95%;
-        margin: 40px auto;
+    .register-page{
         display: flex;
-        border-radius: 20px;
-        .event-info{
-            height: 100%;
-            flex: 1;
-            .info-content{
-                p{
-                    padding: 0px 20px;
-                }
-                strong{
-                    display: block;
-                }
+        flex-direction: row;
+        overflow: hidden;
+        .register-form{
+            width: 100%;
+            form{
+                width: 70%;
+                margin: 30px auto;
             }
-
+            form input{
+                display: block;
+            }
         }
+    
+        .event-info{
+            width: 60%;
         }
     }
+}
+
