@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 
 
 
 const RegisterForm = (props) => {
-
+    const [error, setError ] = useState("");
+    const imageValidation = (event) => {
+        event.preventDefault();
+        if(props.values.IdCard.type === 'image/jpeg' || props.values.IdCard.type === 'image/png'){
+            props.previewButtonHandler();
+        } else {
+            setError("File Type not Supported");
+        }
+    }
 
     return(
         <div className="register-form">
-        <form onSubmit={props.previewButtonHandler}>
+        <form onSubmit={imageValidation}>
             <h1>Register Form</h1>
             <div>
                 <label>Name</label>
@@ -19,7 +27,7 @@ const RegisterForm = (props) => {
             </div>
             <div>
                 <label>Contact</label>
-                <input type="text" name="contact" onChange={props.inputHandler} value={props.values.MobileNumber} required/>
+                <input type="text" name="contact" onChange={props.inputHandler} value={props.values.MobileNumber} pattern="[0-9]{10}"required/>
             </div>
             <div>
                 <label>Tickets</label>
@@ -37,6 +45,7 @@ const RegisterForm = (props) => {
             <div>
                 <label>ID Card</label>
                 <input type="file" name="idcard" onChange={props.inputHandler} accept="image/*" required/>
+                <p>{error}</p>
             </div>
             <button type="submit">Preview</button>
         </form>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 
 
 import RegisterForm from "./RegisterForm";
@@ -10,29 +11,17 @@ import firebase from '../../config/firebase.js'
 
 
 const Register = (props) => {
-    // const [formState, setForm ] = useState({
-    //     Fullname: '',
-    //     EmailId: '', 
-    //     MobileNumber: '', 
-    //     RegistrationType: 'self', 
-    //     TicketNumber: '', 
-    //     IdCardUrl: '',
-    //     IdCard: '',
-    //     flag: false,
-    //     uploadProgress : 0,
-    //     error : ""
-    // })
+    console.log(props);
     const [formState, setForm ] = useState({
-        Fullname: 'Aritra Bhattacharjee',
-        EmailId: 'whoisaritra@gmail.com', 
-        MobileNumber: '1234567891', 
+        Fullname: '',
+        EmailId: '', 
+        MobileNumber: '', 
         RegistrationType: 'self', 
-        TicketNumber: '12', 
+        TicketNumber: '', 
         IdCardUrl: '',
         IdCard: '',
         flag: false,
         uploadProgress : 0,
-        error : ""
     })
 
     const inputHandler = (event) => {
@@ -65,15 +54,15 @@ const Register = (props) => {
     
     const submitHandler = async (event) => {
         event.preventDefault();
-        const fileType = this.state.IdCard.type.split('/')[1];
-        const fileName = this.state.MobileNumber + '.' + fileType;
+        const fileType = formState.IdCard.type.split('/')[1];
+        const fileName = formState.MobileNumber + '.' + fileType;
         // console.log(this.state.IdCard) 
 
         const storage = firebase.storage();
-        const uploadTask = storage.ref(`images/${fileName}`).put(this.state.IdCard);
+        const uploadTask = storage.ref(`images/${fileName}`).put(formState.IdCard);
         uploadTask.on("state_changed",
         snapshot => {
-            this.setState({ uploadProgress : (Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 100)})
+            setForm({...formState ,uploadProgress : (Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 100)})
         },
         error => {
             console.log(error);
@@ -81,19 +70,22 @@ const Register = (props) => {
         () => {
             storage.ref('images').child(fileName).getDownloadURL().then(async url => {
                 console.log(url)
-                this.setState({ IdCardUrl : url })
+                setForm({...formState, IdCardUrl : url })
                 try{
-                    const dbResponse = await axios.post('http://127.0.0.1:8080/registration', {
-                        Fullname: this.state.Fullname,
-                        EmailId: this.state.EmailId,
-                        MobileNumber: this.state.MobileNumber,
-                        RegistrationType: this.state.RegistrationType,
-                        TicketNumber: this.state.TicketNumber,
+                    const dbResponse = await axios.post('https://stackhack-backendserver.herokuapp.com/reg/registration', {
+                        Fullname: formState.Fullname,
+                        EmailId: formState.EmailId,
+                        MobileNumber: formState.MobileNumber,
+                        RegistrationType: formState.RegistrationType,
+                        TicketNumber: formState.TicketNumber,
                         IdCardUrl: url,
                     })
                     if(!dbResponse){
                         console.log("Error");
                     }
+                    props.history.push({pathname : '/register'});
+                    props.history.replace({pathname : '/register'});
+                    props.history.goBack();
                 } catch(e) {
                     console.log(e)
                 }
@@ -101,11 +93,10 @@ const Register = (props) => {
             })
         }
         )
-        console.log(this.state);      
+        console.log(formState);      
     }
 
-    const previewButtonHandler =  (event) =>{
-        event.preventDefault();
+    const previewButtonHandler =  () =>{
         setForm({...formState, flag : !formState.flag })
     }
     const displayComponent = formState.flag === false ? <RegisterForm inputHandler={inputHandler} previewButtonHandler={previewButtonHandler} values={formState} /> : <PreviewForm previewButtonHandler={previewButtonHandler} submitHandler={submitHandler} values={formState} />;
@@ -121,4 +112,4 @@ const Register = (props) => {
     )
 }
 
-export default Register;
+export default withRouter(Register);

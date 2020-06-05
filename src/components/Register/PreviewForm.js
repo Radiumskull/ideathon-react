@@ -18,7 +18,7 @@ const PreviewForm = (props) => {
         </div>
         <div className="button-bar">
             <button onClick={props.previewButtonHandler}>Make Changes</button>
-            <button>Submit</button>
+            <button onClick={props.submitHandler}>Submit</button>
         </div>
     </div>);
 }
