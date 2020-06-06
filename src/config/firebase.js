@@ -1,4 +1,6 @@
 import firebase from 'firebase/app';
+require('firebase/storage');
+
 
 
 const firebaseConfig = {

@@ -31,7 +31,7 @@ const RegisterForm = (props) => {
             </div>
             <div>
                 <label>Tickets</label>
-                <input type="number" name="tickets" onChange={props.inputHandler} value={props.values.TicketNumber} required/>
+                <input type="number" name="tickets" onChange={props.inputHandler} value={props.values.TicketNumber} min="1" required/>
             </div>
             <div>
                 <label>Registration Type</label>

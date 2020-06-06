@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AdminTopbar from './AdminTopbar';
-import RegisteredTile from './RegisteredTile';
 
 const Admin = (props) => {
     const [ regList, updateList ] = useState([]);
@@ -17,16 +16,30 @@ const Admin = (props) => {
     }, []);
 
     const displayList = regList.map(reg => {
-        const regType = reg.RegistrationType;
         return (
-            <div key={reg._id}>
-                <RegisteredTile id={reg._id} name={reg.Fullname} email={reg.EmailId} tickets={reg.TicketNumber} regtype={reg.RegistrationType} contact={reg.MobileNumber}/>
-            </div>);
+            <tr key={reg._id}>
+                <td>{reg._id}</td>
+                <td>{reg.Fullname}}</td>
+                <td>{reg.EmailId}</td>
+                <td>{reg.MobileNumber}</td>
+                <td>{reg.TicketNumber}</td>
+                <td>{reg.RegistrationType}</td>
+            </tr>);
     }) 
     return(
-    <div>
+    regList.length === 0 ? <div className="lds-hourglass"></div> : <div>
         <AdminTopbar logoutHandler={props.logoutHandler}/> 
+        <table className="reg-table">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Contact</th>
+            <th>Ticket Number</th>
+            <th>Registration Type</th>
+        </tr>
         { displayList }   
+        </table>
     </div>);
 }
 
