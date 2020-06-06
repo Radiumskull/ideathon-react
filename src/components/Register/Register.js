@@ -11,13 +11,12 @@ import firebase from '../../config/firebase'
 
 
 const Register = (props) => {
-    console.log(props);
     const [formState, setForm ] = useState({
         Fullname: '',
         EmailId: '', 
         MobileNumber: '', 
         RegistrationType: 'self', 
-        TicketNumber: '', 
+        TicketNumber: '1', 
         IdCardUrl: '',
         IdCard: '',
         flag: false,
@@ -57,53 +56,41 @@ const Register = (props) => {
         const fileType = formState.IdCard.type.split('/')[1];
         const fileName = formState.MobileNumber + '.' + fileType;
         const storage = firebase.storage();
-
-        storage.ref(`images/${fileName}`).getDownloadURL().then(url => {
-            if(url)
-                console.log("File Already Exists");
-            else{
-                const uploadTask = storage.ref(`images/${fileName}`).put(formState.IdCard);
-                uploadTask.on("state_changed",
-                snapshot => {
-                    setForm({...formState ,uploadProgress : (Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 100)})
-                },
-                error => {
-                    console.log(error);
-                },
-                () => {
-                    storage.ref('images').child(fileName).getDownloadURL().then(async url => {
-                        console.log(url)
-                        setForm({...formState, IdCardUrl : url })
-                        try{
-                            const dbResponse = await axios.post('https://stackhack-backendserver.herokuapp.com/reg/registration', {
-                                Fullname: formState.Fullname,
-                                EmailId: formState.EmailId,
-                                MobileNumber: formState.MobileNumber,
-                                RegistrationType: formState.RegistrationType,
-                                TicketNumber: formState.TicketNumber,
-                                IdCardUrl: url,
-                            })
-                            if(!dbResponse){
-                                console.log("Error");
-                            }
-                            props.history.push({pathname : '/register'});
-                            props.history.replace({pathname : '/register'});
-                            props.history.goBack();
-                        } catch(e) {
-                            console.log(e)
-                        }
         
-                    })
-                }
-                )
-            }
-        }).catch(error => {
+        const uploadTask = storage.ref(`images/${fileName}`).put(formState.IdCard);
+        uploadTask.on("state_changed",
+        snapshot => {
+            setForm({...formState ,uploadProgress : (Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 100)})
+        },
+        error => {
             console.log(error);
-        })
+        },
+        () => {
+            storage.ref('images').child(fileName).getDownloadURL().then(async url => {
+                console.log(url)
+                setForm({...formState, IdCardUrl : url })
+                try{
+                    const dbResponse = await axios.post('https://stackhack-backendserver.herokuapp.com/reg/registration', {
+                        Fullname: formState.Fullname,
+                        EmailId: formState.EmailId,
+                        MobileNumber: formState.MobileNumber,
+                        RegistrationType: formState.RegistrationType,
+                        TicketNumber: formState.RegistrationType === 'self' ? '1' : formState.TicketNumber,
+                        IdCardUrl: url,
+                    })
+                    if(!dbResponse){
+                        console.log("Error");
+                    }
+                    props.history.push({pathname : '/register'});
+                    props.history.replace({pathname : '/register'});
+                    props.history.goBack();
+                } catch(e) {
+                    console.log(e)
+                }
 
-
-
-
+            })
+        }
+        )
         console.log(formState);      
     }
 

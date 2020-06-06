@@ -1,16 +1,30 @@
 import React, { useState } from "react";
-
+import firebase from '../../config/firebase'
 
 
 const RegisterForm = (props) => {
-    const [error, setError ] = useState("");
+    const [fileError, setFileError ] = useState("");
     const imageValidation = (event) => {
         event.preventDefault();
         if(props.values.IdCard.type === 'image/jpeg' || props.values.IdCard.type === 'image/png'){
-            props.previewButtonHandler();
+            const storage = firebase.storage();
+            const fileType = props.values.IdCard.type.split('/')[1];
+            const fileName = props.values.MobileNumber + '.' + fileType;
+            storage.ref(`images/${fileName}`).getDownloadURL().then(url => {
+                if(url)
+                    setFileError("Already Registered");
+
+            }).catch(error => {
+                if(error.code === 'storage/object-not-found'){
+                    props.previewButtonHandler();
+                }
+            })
+            
+            
         } else {
-            setError("File Type not Supported");
+            setFileError("File Type not Supported");
         }
+
     }
 
     return(
@@ -29,10 +43,7 @@ const RegisterForm = (props) => {
                 <label>Contact</label>
                 <input type="text" name="contact" onChange={props.inputHandler} value={props.values.MobileNumber} pattern="[0-9]{10}"required/>
             </div>
-            <div>
-                <label>Tickets</label>
-                <input type="number" name="tickets" onChange={props.inputHandler} value={props.values.TicketNumber} min="1" required/>
-            </div>
+
             <div>
                 <label>Registration Type</label>
                 <select name="regtype" onChange={props.inputHandler} value={props.values.RegistrationType}>
@@ -42,10 +53,15 @@ const RegisterForm = (props) => {
                     <option value="others">Others</option>
                 </select>
             </div>
+            {props.values.RegistrationType !== 'self' ? 
+            <div>
+                <label>Tickets</label>
+                <input type="number" name="tickets" onChange={props.inputHandler} value={props.values.TicketNumber} min="1" required/>
+            </div> : <div></div>}
             <div>
                 <label>ID Card</label>
                 <input type="file" name="idcard" onChange={props.inputHandler} accept="image/*" required/>
-                <p>{error}</p>
+                <p style={{color : 'red'}}>{fileError}</p>
             </div>
             <button type="submit">Preview</button>
         </form>

@@ -13,7 +13,7 @@ const PreviewForm = (props) => {
             <label><span>Contact :</span> {props.values.MobileNumber}</label>
             <label><span>Email :</span> {props.values.EmailId}</label>
             <label><span>Registration Type :</span> {props.values.RegistrationType}</label>
-            <label><span>Ticket Number :</span> {props.values.TicketNumber}</label>
+            <label><span>Ticket Number :</span> {props.values.RegistrationType === 'self' ? 1 : props.values.TicketNumber}</label>
         </div>
         </div>
         <div className="button-bar">
