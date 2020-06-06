@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import signupHandler from './LoginActions';
+import { connect } from 'react-redux';
+
+import * as actions from '../../store/actions/auth';
 
 // class EntryPage extends Component {
 const LoginForm = (props) => {
@@ -14,7 +16,7 @@ const LoginForm = (props) => {
       const field = event.target.name;
       switch(field){
         case "email":
-          setForm({...formState, username : text})
+          setForm({...formState, email : text})
           break;
         
         case "password":
@@ -28,11 +30,24 @@ const LoginForm = (props) => {
     const changeView = () => {
       setView(!currentView);
     }
-    const submitHandler = (event) => {
+
+    const submitHandler = async (event) => {
       event.preventDefault();
-      if(!currentView){
-        signupHandler(formState.email, formState.password);
-      }
+      try{
+        if(!currentView){
+          try{
+            await props.onAuth(formState.email, formState.password, true);
+            changeView();
+          } catch(e){
+            console.log(e)
+          }
+
+        } else {
+          await props.onAuth(formState.email, formState.password, false);
+        }
+     } catch(error){
+       console.log(error);
+     }
     }
 
     const loginForm = (
@@ -82,6 +97,7 @@ const LoginForm = (props) => {
         <button type="button" onClick={changeView}>Already Registered?</button>
       </form>
     );
+
     return (
       <section id="entry-page">
           {currentView === true ? loginForm : signupForm}
@@ -89,4 +105,22 @@ const LoginForm = (props) => {
     )
   }
 
-export default LoginForm;
+
+
+const mapStateToProps = state => {
+  return {
+    loading: state.loading,
+    error: state.error,
+    token: state.token,
+    adminId: state.adminId
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuth: ( email, password, isSignUp ) => dispatch( actions.auth( email, password, isSignUp ) )
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)( LoginForm );
