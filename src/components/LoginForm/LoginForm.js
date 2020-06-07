@@ -97,7 +97,6 @@ const LoginForm = (props) => {
         <button type="button" onClick={changeView}>Already Registered?</button>
       </form>
     );
-
     return (
       <section id="entry-page">
           {currentView === true ? loginForm : signupForm}
@@ -111,8 +110,6 @@ const mapStateToProps = state => {
   return {
     loading: state.loading,
     error: state.error,
-    token: state.token,
-    adminId: state.adminId
   }
 }
 

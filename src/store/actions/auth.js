@@ -41,7 +41,6 @@ export const auth = (email, password, isSignUp) => {
     
     if(isSignUp){
         axios.post('https://stackhack-backendserver.herokuapp.com/auth/register', authData).then(res => {
-            console.log(res);
         }).catch(err => {
             console.log(err);
             dispatch(authFail(err));
@@ -50,7 +49,6 @@ export const auth = (email, password, isSignUp) => {
     } else {
         axios.post('https://stackhack-backendserver.herokuapp.com/auth/login',{ email : email, password : password }).then(res => {
             dispatch(authSuccess(res.data.token, res.data.AdminId));
-            console.log(res);
         }).catch(err => {
             console.log(err);
             dispatch(authFail(err));

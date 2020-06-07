@@ -4,15 +4,14 @@ import { connect } from 'react-redux';
 import LoginForm from '../../components/LoginForm/LoginForm';
 
 import * as actions from '../../store/actions/auth';
-import Admin from '../../components/Admin/Admin';
+import AdminPage from './AdminPage';
 
 class AdminLanding extends React.Component{
 
     render(){ 
-        console.log(this.props.token)
         return(
             <div>
-                {  !this.props.token ? <LoginForm /> : <Admin token={this.props.token} logoutHandler={this.props.logoutHandler}/> }  
+                {  !this.props.token ? <LoginForm /> : <AdminPage token={this.props.token} logoutHandler={this.props.logoutHandler}/> }  
             </div>   
         );
     }
@@ -20,7 +19,7 @@ class AdminLanding extends React.Component{
 
 const mapStateToProps = state => {
     return {
-      token: state.token,
+      token: state.auth.token,
     }
   }
 const mapDispatchToProps = dispatch => {

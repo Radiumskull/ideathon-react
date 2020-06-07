@@ -90,8 +90,7 @@ const Register = (props) => {
 
             })
         }
-        )
-        console.log(formState);      
+        )    
     }
 
     const previewButtonHandler =  () =>{
@@ -103,7 +102,7 @@ const Register = (props) => {
         <div className="register-page">
             <div className="event-info">
                 <h1>Ideathon</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem beatae explicabo amet facilis alias perferendis fugit at labore quaerat velit aliquam nesciunt, architecto voluptatibus qui exercitationem dolore dignissimos repudiandae quod!Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem beatae explicabo amet facilis alias perferendis fugit at labore quaerat velit aliquam nesciunt, architecto voluptatibus qui exercitationem dolore dignissimos repudiandae quod!</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem beatae explicabo amet facilis alias perferendis fugit at labore quaerat velit aliquam nesciunt, </p>
             </div>
             { displayComponent }
         </div>

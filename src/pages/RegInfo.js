@@ -12,11 +12,10 @@ const UserInfo = (props) => {
         const tokenString = "Bearer " + props.token; 
         axios.get(url + props.match.params.id, { headers : { Authorization : tokenString}}).then(res => {
             updateUser(res.data.registration);
-            console.log(res.data.registration);
         }).catch(e => {
             console.log(e);
         })
-    }, []);
+    }, [props.match.params.id, props.token, userInfo]);
 
     const backHandler = () => {
         props.history.goBack();
@@ -41,7 +40,7 @@ const UserInfo = (props) => {
 
 const mapStateToProps = state => {
     return {
-      token: state.token,
+      token: state.auth.token,
     }
   }
 

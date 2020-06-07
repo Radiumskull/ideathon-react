@@ -41,7 +41,7 @@ const RegisterForm = (props) => {
             </div>
             <div>
                 <label>Contact</label>
-                <input type="text" name="contact" onChange={props.inputHandler} value={props.values.MobileNumber} pattern="[0-9]{10}"required/>
+                <input type="text" name="contact" onChange={props.inputHandler} value={props.values.MobileNumber} pattern="[0-9]{10}" required/>
             </div>
 
             <div>
