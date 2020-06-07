@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import axios from 'axios';
 
 import * as regActions from '../../store/actions/regList';
 import * as authActions from '../../store/actions/auth';
@@ -22,23 +21,8 @@ class AdminPage extends Component{
     }
     tokenString = "Bearer " + this.props.token;
     async componentDidMount(){
-        try{
-            await this.props.regListUpdate(this.tokenString);
-            const selfRes = await axios.get('https://stackhack-backendserver.herokuapp.com/reg/count/self', { headers : { Authorization: this.tokenString }});
-            const otherRes = await axios.get('https://stackhack-backendserver.herokuapp.com/reg/count/other', { headers : { Authorization: this.tokenString }});
-            const coorporateRes = await axios.get('https://stackhack-backendserver.herokuapp.com/reg/count/coorporate', { headers : { Authorization: this.tokenString }});
-            const groupRes = await axios.get('https://stackhack-backendserver.herokuapp.com/reg/count/group', { headers : { Authorization: this.tokenString }});
-            this.setState({
-                regTypes : {
-                    self : parseInt(selfRes.data.split(':')[1]),
-                    other : parseInt(otherRes.data.split(':')[1]),
-                    coorporate : parseInt(coorporateRes.data.split(':')[1]),
-                    group : parseInt(groupRes.data.split(':')[1]),
-                }
-            });
-        } catch(e){
-            console.log(" ");
-        }
+        await this.props.regListUpdate(this.tokenString);
+        await this.props.regTypeUpdate(this.tokenString);
     }
 
     clickHandler = (id) => {
@@ -49,10 +33,10 @@ class AdminPage extends Component{
 
     render(){
         return( this.props.regList === null ? <div className="loader-center"><div className="lds-hourglass"></div></div> : 
-        <div>
+        <div style={{overflow : 'auto'}}>
             <AdminTopbar logoutHandler={this.props.logoutHandler} token={this.props.token}/>
             <div className="adminBody">
-                <RegTypeDash regTypes={this.state.regTypes}/>
+                <RegTypeDash regTypes={this.props.regType}/>
                     <div className="table-wrapper">
                         <table className="fl-table">
                             <thead>
@@ -69,12 +53,12 @@ class AdminPage extends Component{
                             { this.props.regList.map(reg => {
                                 return (
                                     <tr key={reg._id} onClick={() => this.clickHandler(reg._id)}>
-                                        <td>{reg._id}</td>
-                                        <td>{reg.Fullname}</td>
-                                        <td>{reg.EmailId}</td>
-                                        <td>{reg.MobileNumber}</td>
-                                        <td>{reg.TicketNumber}</td>
-                                        <td>{reg.RegistrationType}</td>
+                                        <td><span className="mob-only">ID : </span>{reg._id}</td>
+                                        <td><span className="mob-only">Name : </span>{reg.Fullname}</td>
+                                        <td><span className="mob-only">Email : </span>{reg.EmailId}</td>
+                                        <td><span className="mob-only">Contact : </span>{reg.MobileNumber}</td>
+                                        <td><span className="mob-only">Ticket : </span>{reg.TicketNumber}</td>
+                                        <td><span className="mob-only">Registration Type : </span>{reg.RegistrationType}</td>
                                     </tr>);
                                 }) 
                             } 
@@ -89,13 +73,15 @@ class AdminPage extends Component{
 
 const mapStateToProps = state => {
     return {
-      regList : state.reg.regList,
-      token : state.auth.token,
+        regList : state.reg.regList,
+        token : state.auth.token,
+        regType : state.reg.regType
     }
   }
 const mapDispatchToProps = dispatch => {
 return {
     regListUpdate : (tokenString) => dispatch( regActions.regListUpdate(tokenString) ) ,
+    regTypeUpdate : (tokenString) => dispatch( regActions.regTypeUpdate(tokenString) ) ,
     logoutHandler : () => dispatch( authActions.logout() )
 }
 }
